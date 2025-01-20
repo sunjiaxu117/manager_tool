@@ -17,6 +17,13 @@ type User struct {
 }
 
 func main() {
+
+	claims, tokenerr := utils.ParesToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1biIsImlzcyI6InRlc3QiLCJzdWIiOiJ0ZXN0IiwiZXhwIjoxNzM3Mzg1OTE1LCJuYmYiOjE3MzczODU3OTUsImlhdCI6MTczNzM4NTc5NX0.ZtSEmwLYvGsYc6G28d5UgKJmkIA8AJw14yprdfbQjco")
+	if tokenerr != nil {
+		fmt.Println("不合法")
+	} else {
+		fmt.Println("合法", claims.Username)
+	}
 	s, e := utils.GenToken("sun")
 	fmt.Println(s, e)
 	//数据库
