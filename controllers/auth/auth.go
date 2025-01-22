@@ -1,10 +1,9 @@
 package auth
 
 import (
-	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
-	"manger/db"
+	"manger/model"
 	"net/http"
 )
 
@@ -19,16 +18,15 @@ func Login(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	var users db.User
-	users.Name = user.Username
-	users.Password = user.Password
-	result := db.DB.First(&users)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		c.JSON(401, gin.H{"message": "invalid credentials"})
-	} else if result.Error != nil {
-		c.JSON(500, gin.H{"message": "server error"})
-	} else {
+	m := &model.Users{}
+	err := m.GetByName(user.Username)
+	if err != nil {
+		fmt.Println(err)
+	}
+	if m.Name == user.Username && m.Password == user.Password {
 		c.JSON(200, gin.H{"message": "login success"})
+	} else {
+		c.JSON(400, gin.H{"message": "login fail"})
 	}
 }
 

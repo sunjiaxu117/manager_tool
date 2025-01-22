@@ -2,26 +2,29 @@
 package db
 
 import (
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"xorm.io/xorm"
 )
 
-var DB *gorm.DB
+var Engine *xorm.Engine
 
-type User struct {
-	ID       uint `gorm:"primarykey;AUTO_INCREMENT"`
-	Name     string
-	Password string
-}
+var (
+	userName  string = "root"
+	password  string = "root"
+	ipAddress string = "127.0.0.1"
+	port      int    = 3306
+	dbName    string = "manager"
+	charset   string = "utf8mb4"
+)
 
 func InitDB() {
-	dsn := "root:root@tcp(127.0.0.1:3306)/manager?charset=utf8mb4&parseTime=True&loc=Local"
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s", userName, password, ipAddress, port, dbName, charset)
+	//此处使用musql驱动 则需要在import中加入mysql的初始化驱动 并不使用但是需要进行mysql的初始化
+	//_ "github.com/go-sql-driver/mysql"
 	var err error
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
+	Engine, err = xorm.NewEngine("mysql", dataSourceName)
 	if err != nil {
-		panic("failed to connect database")
+		fmt.Println("数据库连接失败", err)
 	}
 }
