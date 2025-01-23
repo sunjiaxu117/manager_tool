@@ -3,3 +3,6 @@
 新增了jwt初步功能:  
 官方文档:https://pkg.go.dev/github.com/golang-jwt/jwt/v5#example-New-Hmac  
 教程:https://www.jb51.net/jiaoben/329902m3v.htm
+---
+新增logrus日志框架
+官方网站:https://github.com/sirupsen/logrus

@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"manger/model"
 	"net/http"
 )
@@ -21,7 +21,9 @@ func Login(c *gin.Context) {
 	m := &model.Users{}
 	err := m.GetByName(user.Username)
 	if err != nil {
-		fmt.Println(err)
+		log.WithFields(log.Fields{
+			"animal": "walrus",
+		}).Info("A walrus appears")
 	}
 	if m.Name == user.Username && m.Password == user.Password {
 		c.JSON(200, gin.H{"message": "login success"})
