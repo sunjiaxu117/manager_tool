@@ -2,12 +2,14 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"manger/log"
+
 	"manger/db"
 	"manger/routers"
 )
 
 func main() {
-	//数据库
+	log.InitLogger()
 	db.InitDB()
 	//服务器
 	server := gin.Default()

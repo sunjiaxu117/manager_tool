@@ -5,6 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"manger/model"
 	"net/http"
+	"time"
 )
 
 type UserInfo struct {
@@ -23,6 +24,7 @@ func Login(c *gin.Context) {
 	if err != nil {
 		log.WithFields(log.Fields{
 			"animal": "walrus",
+			"time":   time.Now(),
 		}).Info("A walrus appears")
 	}
 	if m.Name == user.Username && m.Password == user.Password {
